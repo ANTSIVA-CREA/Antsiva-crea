@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<!--
+
+-->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANTSIVA CREA — Prestataire de service</title>
+<meta name="description" content="ANTSIVA CREA  est un prestataire de service à Madagascar : stratégie, création et présence digitale pour les marques qui veulent porter plus loin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F2F6FB;
+    --surface:#FFFFFF;
+    --ink:#0B2545;
+    --ink-soft:#3C5A80;
+    --primary:#114B9C;
+    --accent:#2E86FF;
+    --deep:#071A33;
+    --mist:#D6E6F7;
+    --line:#C4D8EE;
+    --radius:6px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background-color:var(--bg);
+    background-image:
+      linear-gradient(rgba(232, 239, 247, 0.88) rgba(242,246,251,0.88)),
+      url('image-antsiva12.png');
+    background-size:cover;
+    background-position:center bottom;
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:'Inter', sans-serif;font-weight:400;
+    font-size:17px;
+    line-height:1.6;
+  }
+  h1,h2,h3,.display{
+    font-family:'Sora', sans-serif;
+    color:var(--deep);
+    line-height:1.08;
+    margin:0;
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+  section{padding:96px 0;}
+  @media (max-width:640px){
+    section{padding:64px 0;}
+    .wrap{padding:0 22px;}
+    body{font-size:16px;}
+  }
+
+  /* ---------- Préchargeur (spirale ANTSIVA qui tourne) ---------- */
+  #preloader{
+    position:fixed;top:0;right:0;bottom:0;left:0;z-index:9999;
+    background:var(--deep);
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  #preloader svg{width:96px;height:96px;animation:preloaderSpin 1.4s linear infinite;}
+  .preloader-spiral{fill:none;stroke:#fff;stroke-width:5;}
+  @keyframes preloaderSpin{to{transform:rotate(360deg);}}
+  body.is-loaded #preloader{opacity:0;visibility:hidden;pointer-events:none;}
+  @media (prefers-reduced-motion:reduce){
+    #preloader svg{animation:none;}
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(242,246,251,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{display:flex;align-items:center;}
+  .brand img{width:38px;height:38px;}
+  .brand span{font-family:'Sora',sans-serif;font-weight:600;font-size:1.3rem;letter-spacing:0.01em;color:var(--deep);}
+  nav ul{list-style:none;display:flex;margin:0;padding:0;}
+  nav ul a{font-size:0.96rem;color:var(--ink-soft);transition:color .15s;}
+  nav ul a:hover{color:var(--primary);}
+  .menu-toggle{
+    display:none;position:relative;width:40px;height:40px;padding:0;
+    background:none;border:none;color:var(--deep);cursor:pointer;
+  }
+  .menu-toggle span{
+    position:absolute;left:8px;right:8px;height:3px;border-radius:2px;background:currentColor;
+    transition:transform .3s ease, opacity .2s ease, top .3s ease;
+  }
+  .menu-toggle span:nth-child(1){top:12px;}
+  .menu-toggle span:nth-child(2){top:19px;}
+  .menu-toggle span:nth-child(3){top:26px;}
+  /* Menu ouvert : les 3 barres deviennent une croix */
+  .nav.open .menu-toggle span:nth-child(1){top:19px;transform:rotate(45deg);}
+  .nav.open .menu-toggle span:nth-child(2){opacity:0;}
+  .nav.open .menu-toggle span:nth-child(3){top:19px;transform:rotate(-45deg);}
+  @media (max-width:780px){
+    nav ul{display:none;}
+    .menu-toggle{display:block;}
+    .nav.open nav ul{
+      display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;
+      background:var(--surface);border-bottom:1px solid var(--line);padding:8px 22px 18px;
+    }
+    .nav.open nav ul a{display:block;padding:12px 0;border-bottom:1px solid var(--line);}
+  }
+
+  /* ---------- Sélecteur de langue (liste déroulante) ---------- */
+  .nav-right{display:flex;align-items:center;}
+  .lang-dropdown{position:relative;}
+  .lang-current{
+    display:flex;align-items:center;cursor:pointer;
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    padding:7px 10px;color:var(--deep);font-family:inherit;font-size:0.92rem;font-weight:600;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .lang-current:hover,.lang-dropdown.open .lang-current{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,255,0.15);}
+  .lang-current:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
+  .lang-flag{display:block;line-height:0;}
+  .lang-flag svg,.lang-btn svg{width:26px;height:18px;border-radius:3px;box-shadow:0 1px 3px rgba(11,37,69,0.35);flex:none;}
+  .lang-caret{font-size:0.75rem;transition:transform .2s ease;}
+  .lang-dropdown.open .lang-caret{transform:rotate(180deg);}
+  .lang-menu{
+    list-style:none;margin:0;padding:6px;
+    position:absolute;top:calc(100% + 8px);right:0;min-width:160px;z-index:80;
+    background:var(--deep);border-radius:10px;
+    box-shadow:0 12px 32px rgba(7,26,51,0.35);
+    opacity:0;visibility:hidden;transform:translateY(-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .lang-dropdown.open .lang-menu{opacity:1;visibility:visible;transform:translateY(0);}
+  .lang-btn{
+    display:flex;align-items:center;width:100%;
+    padding:10px 12px;border:0;border-radius:7px;background:none;cursor:pointer;
+    color:#EAF2FC;font-family:inherit;font-size:0.95rem;text-align:left;
+    transition:background .15s;
+  }
+  .lang-btn:hover,.lang-btn:focus-visible{background:rgba(255,255,255,0.12);outline:none;}
+  .lang-btn.active{background:rgba(46,134,255,0.28);font-weight:600;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:72px 0 40px;
+    overflow:hidden;
+    position:relative;
+    background:#D6EAF6;
+  }
+  .hero-bg{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  .hero .wrap{position:relative;z-index:1;}
+  .hero .wrap{
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;
+  }
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-art{order:-1;max-width:280px;margin:0 auto;}
+  }
+  .hero h1{font-size:clamp(2.8rem,6.2vw,4.6rem);max-width:12ch;color:var(--deep);}
+  .hero .lede{margin-top:22px;max-width:46ch;color:var(--ink-soft);font-size:1.08rem;}
+  .hero-actions{display:flex;align-items:center;margin-top:34px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;position:relative;overflow:hidden;
+    background:var(--primary);color:#fff;padding:14px 26px;
+    border-radius:var(--radius);font-weight:500;font-size:0.98rem;border:1px solid var(--primary);
+    transition:background .15s, color .15s, transform .15s ease, box-shadow .2s ease;
+  }
+  .btn:hover{background:var(--deep);border-color:var(--deep);transform:translateY(-2px);box-shadow:0 10px 24px rgba(11,37,69,0.35);}
+  .btn:active{transform:translateY(0) scale(0.97);box-shadow:0 4px 10px rgba(11,37,69,0.25);}
+  .btn .ripple{
+    position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);
+    transform:scale(0);animation:rippleAnim .6s ease-out forwards;pointer-events:none;
+  }
+  @keyframes rippleAnim{to{transform:scale(2.6);opacity:0;}}
+  .btn-ghost{background:none;color:#fff;border:1px solid rgba(255,255,255,0.55);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.15);color:#fff;}
+  /* Boutons de l'accueil : côte à côte, en forme de vrais boutons */
+  .hero-actions{flex-wrap:nowrap;}
+  .hero-actions .btn{
+    flex:0 1 auto;text-align:center;border-radius:999px;font-weight:600;
+    padding:14px 28px;line-height:1.2;
+  }
+  .hero-actions .btn:not(.btn-glass){
+    box-shadow:0 8px 22px rgba(21,101,255,0.38), inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  /* Effet verre transparent */
+  .btn-glass{
+    background:rgba(255,255,255,0.38);
+    border:1px solid rgba(17,75,156,0.35);
+    color:var(--deep);
+    -webkit-backdrop-filter:blur(12px) saturate(150%);
+    backdrop-filter:blur(12px) saturate(150%);
+    box-shadow:0 8px 24px rgba(17,75,156,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+  .btn-glass:hover{background:rgba(255,255,255,0.7);border-color:rgba(17,75,156,0.6);color:var(--deep);}
+  @media (max-width:900px){
+    .hero-actions{justify-content:center;}
+  }
+  @media (max-width:480px){
+    .hero-actions .btn{flex:1 1 0;padding:14px 10px;font-size:0.95rem;}
+  }
+  .hero-note{font-size:0.92rem;color:var(--ink-soft);}
+  .hero-art svg{width:100%;height:auto;}
+
+  /* ---------- Animation du titre, lettre par lettre ---------- */
+  .animate-letters .letter{
+    display:inline-block;opacity:0;transform:translateY(26px);
+    animation:letterIn .6s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  @keyframes letterIn{to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion:reduce){
+    .animate-letters .letter{animation:none;opacity:1;transform:none;}
+  }
+  /* Vague de couleur en boucle sur le titre de l'accueil */
+  .hero h1.animate-letters .letter{
+    animation:letterIn .6s cubic-bezier(.2,.8,.2,1) forwards, colorWave 4.5s ease-in-out infinite;
+  }
+  @keyframes colorWave{
+    0%,100%{color:var(--deep);transform:translateY(0);}
+    40%{color:var(--primary);transform:translateY(-5px);}
+    70%{color:var(--deep);transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero h1.animate-letters .letter{animation:none;opacity:1;transform:none;}
+  }
+  .spiral-path{
+    fill:none;stroke:var(--primary);stroke-width:2.4;opacity:0.9;
+    stroke-dasharray:1900;stroke-dashoffset:1900;
+    animation:draw 2.6s ease-out forwards 0.2s;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){
+    .spiral-path{animation:none;stroke-dashoffset:0;}
+  }
+
+  /* ---------- Section heads ---------- */
+  .section-head{max-width:56ch;margin-bottom:52px;}
+  .section-head h2{font-size:clamp(2.1rem,4vw,3rem);}
+  .section-head p{margin-top:14px;color:var(--ink-soft);}
+
+  /* ---------- Services ---------- */
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  }
+  .service{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    padding:32px;
+    box-shadow:0 4px 10px rgba(11,37,69,0.06), 0 16px 34px rgba(11,37,69,0.10);
+    transform:translateY(0) scale(1);
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, border-color .25s ease;
+  }
+  .service:hover{
+    transform:translateY(-10px) scale(1.015);
+    box-shadow:0 10px 20px rgba(11,37,69,0.12), 0 28px 48px rgba(11,37,69,0.20);
+    border-color:transparent;
+  }
+  .service-icon{
+    width:52px;height:52px;border-radius:14px;background:var(--mist);color:var(--primary);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+    box-shadow:0 4px 10px rgba(11,37,69,0.15), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition:transform .25s ease, background .25s ease, box-shadow .25s ease;
+    position:relative;z-index:1;
+  }
+  .service-icon svg{width:26px;height:26px;}
+  .service:hover .service-icon{transform:scale(1.1) rotate(-4deg);background:var(--primary);color:#fff;}
+  .service h3{font-size:1.2rem;color:var(--deep);position:relative;z-index:1;}
+  .service p{margin-top:12px;color:var(--ink-soft);font-size:0.96rem;position:relative;z-index:1;}
+
+  /* Cartes de service avec photo : dégradé diagonal vibrant type "gradient overlay", effet 3D */
+  .service-photo{
+    background-size:cover;background-position:center;border:none;
+    position:relative;isolation:isolate;overflow:hidden;
+  }
+  .service-photo::before{
+    content:"";position:absolute;top:0;right:0;bottom:0;left:0;z-index:0;
+    background:linear-gradient(135deg, rgba(46,134,255,0.68) 0%, rgba(17,75,156,0.72) 45%, rgba(7,26,51,0.88) 100%);
+    transition:background .3s ease, opacity .3s ease;
+  }
+  .service-photo::after{
+    content:"";position:absolute;top:0;right:0;bottom:0;left:0;z-index:0;pointer-events:none;
+    background:linear-gradient(135deg, rgba(255,255,255,0.22) 0%, transparent 30%);
+  }
+  .service-photo:hover::before{background:linear-gradient(135deg, rgba(46,134,255,0.78) 0%, rgba(17,75,156,0.82) 45%, rgba(7,26,51,0.94) 100%);}
+  .service-photo .service-icon{background:rgba(255,255,255,0.18);color:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.35);}
+  .service-photo:hover .service-icon{background:rgba(255,255,255,0.3);color:#fff;}
+  .service-photo h3{color:#fff;}
+  .service-photo p{color:#DCEAFB;}
+  .service-photo h3,.service-photo p{text-shadow:0 1px 4px rgba(2,26,43,0.55);}
+
+  .service-cta{
+    background:var(--deep);border-color:var(--deep);color:#EAF2FC;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .service-cta h3{color:#fff;}
+  .service-cta p{color:#B9CDE6;}
+  .service-cta:hover{
+    transform:translateY(-10px) scale(1.015);
+    box-shadow:0 10px 20px rgba(7,26,51,0.25), 0 28px 48px rgba(7,26,51,0.35);
+  }
+  @media (max-width:960px){
+    .services-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:640px){
+    .services-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Animation générique au scroll (blocs de service, etc.) ---------- */
+  .reveal-up{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal-up.is-visible{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){
+    .reveal-up{opacity:1;transform:none;transition:none;}
+  }
+
+  /* ---------- Réalisations ---------- */
+  .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:780px){.work-grid{grid-template-columns:1fr;}}
+  .work-card{border-radius:var(--radius);overflow:hidden;background:var(--surface);border:1px solid var(--line);}
+  .work-thumb{
+    height:190px;position:relative;
+    background:linear-gradient(155deg,var(--mist),var(--primary) 130%);
+  }
+  .work-card:nth-child(2) .work-thumb{background:linear-gradient(155deg,#BFD8F5,var(--deep) 140%);}
+  .work-card:nth-child(3) .work-thumb{background:linear-gradient(155deg,#DCEAFB,#1B5FB8 130%);}
+  .work-thumb span{
+    position:absolute;bottom:14px;left:16px;color:#fff;font-size:0.82rem;
+    background:rgba(7,26,51,0.35);padding:5px 11px;border-radius:20px;
+  }
+  .work-body{padding:20px 22px 24px;}
+  .work-body h3{font-size:1.08rem;color:var(--deep);}
+  .work-body p{margin-top:8px;color:var(--ink-soft);font-size:0.94rem;}
+
+  /* ---------- Carrousel réalisations (JS Bootstrap, style maison) ---------- */
+  .work-carousel{
+    position:relative;border-radius:20px;overflow:hidden;background:var(--surface);border:none;
+    box-shadow:0 4px 10px rgba(11,37,69,0.08), 0 24px 48px rgba(11,37,69,0.16);
+  }
+  .carousel-inner{position:relative;width:100%;overflow:hidden;}
+  .carousel-item{position:relative;display:none;float:left;width:100%;margin-right:-100%;backface-visibility:hidden;transition:transform .6s ease-in-out;}
+  .carousel-item.active,.carousel-item-next,.carousel-item-prev{display:block;}
+  .carousel-item-next:not(.carousel-item-start),.active.carousel-item-end{transform:translateX(100%);}
+  .carousel-item-prev:not(.carousel-item-end),.active.carousel-item-start{transform:translateX(-100%);}
+  .carousel-item-next.carousel-item-start,.carousel-item-prev.carousel-item-end,.carousel-item.active{transform:translateX(0);}
+  .work-slide{height:420px;position:relative;display:flex;align-items:flex-end;}
+  .work-slide-art{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;display:block;object-fit:cover;}
+  .work-slide::after{
+    content:"";position:absolute;top:0;right:0;bottom:0;left:0;
+    background:linear-gradient(0deg,rgba(7,26,51,0.85) 0%,rgba(7,26,51,0.25) 55%,transparent 100%);
+  }
+  @media (max-width:640px){.work-slide{height:340px;}}
+  .work-caption{position:relative;z-index:2;padding:0 34px 30px;max-width:560px;}
+  .work-caption .slide-tag{
+    display:inline-block;color:#fff;font-size:0.82rem;background:rgba(255,255,255,0.15);
+    padding:5px 13px;border-radius:20px;margin-bottom:12px;
+    opacity:0;transform:translateY(14px);
+  }
+  .work-caption h3,.work-caption p{text-shadow:0 1px 4px rgba(2,26,43,0.6);}
+  .work-caption h3{color:#fff;font-size:1.35rem;opacity:0;transform:translateY(16px);}
+  .work-caption p{margin-top:8px;color:#DCEAFB;font-size:0.96rem;opacity:0;transform:translateY(16px);}
+  .carousel-item.active .work-caption .slide-tag{animation:capIn .55s ease .15s forwards;}
+  .carousel-item.active .work-caption h3{animation:capIn .55s ease .28s forwards;}
+  .carousel-item.active .work-caption p{animation:capIn .55s ease .4s forwards;}
+  @keyframes capIn{to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion:reduce){
+    .work-caption .slide-tag,.work-caption h3,.work-caption p{animation:none !important;opacity:1;transform:none;}
+  }
+  .carousel-control-prev,.carousel-control-next{
+    position:absolute;top:0;height:420px;display:flex;align-items:center;
+    width:52px;border:0;background:none;cursor:pointer;z-index:3;
+  }
+  @media (max-width:640px){.carousel-control-prev,.carousel-control-next{height:340px;}}
+  .carousel-control-prev{left:6px;justify-content:flex-start;}
+  .carousel-control-next{right:6px;justify-content:flex-end;}
+  .control-icon{
+    width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.18);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:1.4rem;line-height:1;
+    transition:background .15s;
+  }
+  .carousel-control-prev:hover .control-icon,.carousel-control-next:hover .control-icon{background:rgba(255,255,255,0.32);}
+  .work-indicators{
+    position:absolute;z-index:3;bottom:18px;right:34px;left:auto;
+    display:flex;padding:0;margin:0;width:auto;background:none;
+  }
+  .work-indicators button{
+    appearance:none;-webkit-appearance:none;
+    width:9px;height:9px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;
+  }
+  .work-indicators button.active{background:#fff;}
+
+  .invalid-feedback{display:none;color:#FFC7C2;font-size:0.82rem;margin-top:6px;}
+  .was-validated input:invalid,.was-validated textarea:invalid{border-color:#E4574C;}
+  .was-validated input:invalid ~ .invalid-feedback,
+  .was-validated textarea:invalid ~ .invalid-feedback{display:block;}
+  .was-validated input:valid,.was-validated textarea:valid{border-color:#3FAE6B;}
+
+  /* ---------- À propos ---------- */
+  .about{display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:start;}
+  @media (max-width:860px){.about{grid-template-columns:1fr;gap:36px;}}
+  .about-mark{font-family:'Inter',sans-serif;font-style:italic;font-weight:500;font-size:1.5rem;color:var(--primary);line-height:1.4;}
+  .about-copy p{color:var(--ink-soft);margin-top:18px;font-size:1.02rem;}
+  .about-copy p:first-child{margin-top:0;}
+  .about-list{margin-top:26px;padding:0;list-style:none;display:flex;flex-direction:column;}
+  .about-list li{
+    padding-left:22px;position:relative;color:var(--ink);font-size:0.98rem;
+  }
+  .about-list li::before{
+    content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:50%;background:var(--accent);
+  }
+
+  /* ---------- Témoignages ---------- */
+  .testimonials{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+  @media (max-width:780px){.testimonials{grid-template-columns:1fr;}}
+  blockquote{
+    margin:0;border-left:3px solid var(--accent);padding:26px 28px 26px 30px;
+    background:var(--surface);border-radius:0 20px 20px 0;
+    box-shadow:0 4px 10px rgba(11,37,69,0.05), 0 16px 34px rgba(11,37,69,0.09);
+    transform:translateY(0);
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
+  }
+  blockquote:hover{
+    transform:translateY(-8px);
+    box-shadow:0 8px 16px rgba(11,37,69,0.09), 0 24px 44px rgba(11,37,69,0.16);
+  }
+  blockquote p{font-family:'Inter',sans-serif;font-style:italic;font-weight:500;font-size:1.18rem;color:var(--deep);line-height:1.5;}
+  .cite{margin-top:18px;display:flex;align-items:center;}
+  .cite .avatar{
+    width:38px;height:38px;border-radius:50%;background:var(--mist);color:var(--primary);
+    display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.92rem;
+    overflow:hidden;box-shadow:0 3px 8px rgba(11,37,69,0.18);
+  }
+  .cite .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+  .cite .who{font-size:0.9rem;color:var(--ink-soft);}
+  .cite .who strong{color:var(--ink);display:block;font-size:0.96rem;}
+
+  /* ---------- Contact ---------- */
+  .contact-wrap{
+    background:var(--deep);border-radius:12px;padding:56px;display:grid;
+    grid-template-columns:0.9fr 1.1fr;gap:48px;color:#EAF2FC;
+  }
+  @media (max-width:860px){.contact-wrap{grid-template-columns:1fr;padding:36px 26px;}}
+  .contact-wrap h2{color:#fff;font-size:clamp(1.6rem,3vw,2.1rem);}
+  .contact-wrap .lede{color:#B9CDE6;margin-top:16px;font-size:1rem;max-width:36ch;}
+  .contact-info{margin-top:30px;display:flex;flex-direction:column;font-size:0.96rem;color:#DCEAFB;}
+  .contact-row{display:flex;align-items:center;}
+  .contact-icon{
+    width:34px;height:34px;min-width:34px;border-radius:50%;
+    background:rgba(255,255,255,0.1);color:#8FB6E8;
+    display:flex;align-items:center;justify-content:center;
+    animation:iconPulse 2.6s ease-in-out infinite;
+  }
+  .contact-icon svg{width:17px;height:17px;}
+  .contact-row:nth-child(1) .contact-icon{animation-delay:0s;}
+  .contact-row:nth-child(2) .contact-icon{animation-delay:.3s;}
+  .contact-row:nth-child(3) .contact-icon{animation-delay:.6s;}
+  @keyframes iconPulse{
+    0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(46,134,255,0.35);}
+    50%{transform:scale(1.12);box-shadow:0 0 0 6px rgba(46,134,255,0);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .contact-icon{animation:none;}
+  }
+  .fb-link{display:inline-flex;align-items:center;color:#8FB6E8;text-decoration:underline;text-underline-offset:3px;width:fit-content;transition:color .15s;}
+  .fb-link:hover{color:#fff;}
+  form{display:flex;flex-direction:column;}
+  .form-floating{position:relative;}
+  input,textarea{
+    width:100%;padding:20px 14px 6px;border-radius:5px;border:1px solid #274A73;
+    background:#0C2B4F;color:#EAF2FC;font-family:inherit;font-size:0.96rem;
+  }
+  input::placeholder,textarea::placeholder{color:transparent;}
+  textarea{min-height:120px;resize:vertical;padding-top:26px;}
+  .form-floating label{
+    position:absolute;left:14px;top:15px;
+    font-size:0.96rem;color:#8FB6E8;
+    pointer-events:none;transition:top .15s ease, font-size .15s ease, color .15s ease;
+    margin:0;
+  }
+  .form-floating textarea ~ label{top:18px;}
+  .form-floating input:focus ~ label,
+  .form-floating input:not(:placeholder-shown) ~ label,
+  .form-floating textarea:focus ~ label,
+  .form-floating textarea:not(:placeholder-shown) ~ label{
+    top:6px;font-size:0.72rem;color:#B9CDE6;
+  }
+  .contact-wrap .btn{align-self:flex-start;margin-top:4px;}
+  .form-note{font-size:0.82rem;color:#6C8CB2;margin-top:2px;}
+
+  /* ---------- Footer ---------- */
+  footer{padding:44px 0;border-top:1px solid var(--line);}
+  .foot-wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+  .foot-brand{display:flex;align-items:center;}
+  .foot-brand img{width:26px;height:26px;}
+  .foot-brand span{font-family:'Sora',sans-serif;font-weight:600;color:var(--deep);}
+  footer nav ul{display:flex;font-size:0.88rem;}
+  footer nav ul a{color:var(--ink-soft);}
+  footer nav ul a:hover{color:var(--primary);}
+  .foot-copy{font-size:0.85rem;color:var(--ink-soft);}
+
+  /* Espacements compatibles avec les anciens Chrome (remplace "gap" sur flexbox) */
+  .brand > * + *{margin-left:12px;}
+  nav ul > li + li{margin-left:44px;}
+  footer nav ul > li + li{margin-left:24px;}
+  .nav-right > * + *{margin-left:14px;}
+  .lang-current > * + *{margin-left:8px;}
+  .lang-btn > * + *{margin-left:12px;}
+  .hero-actions > * + *{margin-left:22px;}
+  .work-indicators button + button{margin-left:8px;}
+  .cite > * + *{margin-left:12px;}
+  .contact-row > * + *{margin-left:12px;}
+  .fb-link > * + *{margin-left:8px;}
+  .foot-wrap > * + *{margin-left:18px;}
+  .foot-brand > * + *{margin-left:10px;}
+  .service-cta > * + *{margin-top:24px;}
+  .about-list > * + *{margin-top:14px;}
+  .contact-info > * + *{margin-top:14px;}
+  form > * + *{margin-top:16px;}
+  @media (max-width:780px){
+    .nav.open nav ul > li + li{margin-left:0;}
+    .nav-right > * + *{margin-left:10px;}
+  }
+  @media (max-width:480px){
+    .hero-actions > * + *{margin-left:14px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="preloader">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path class="preloader-spiral" d="M 203.74,210.0 L 203.79,210.37 L 203.8,210.75 L 203.78,211.13 L 203.71,211.52 L 203.61,211.91 L 203.47,212.29 L 203.29,212.66 L 203.07,213.02 L 202.81,213.36 L 202.52,213.68 L 202.18,213.97 L 201.82,214.24 L 201.43,214.47 L 201.0,214.67 L 200.55,214.83 L 200.08,214.95 L 199.6,215.02 L 199.1,215.04 L 198.59,215.02 L 198.07,214.95 L 197.56,214.82 L 197.06,214.64 L 196.56,214.41 L 196.08,214.13 L 195.62,213.79 L 195.19,213.41 L 194.79,212.98 L 194.43,212.5 L 194.12,211.99 L 193.84,211.43 L 193.62,210.84 L 193.46,210.22 L 193.35,209.58 L 193.31,208.92 L 193.33,208.25 L 193.42,207.57 L 193.57,206.88 L 193.8,206.21 L 194.09,205.55 L 194.45,204.91 L 194.88,204.3 L 195.38,203.72 L 195.94,203.18 L 196.56,202.7 L 197.24,202.26 L 197.97,201.89 L 198.74,201.59 L 199.56,201.35 L 200.4,201.2 L 201.28,201.13 L 202.17,201.14 L 203.07,201.24 L 203.97,201.43 L 204.87,201.71 L 205.75,202.08 L 206.61,202.55 L 207.43,203.11 L 208.2,203.75 L 208.92,204.48 L 209.58,205.29 L 210.17,206.17 L 210.68,207.13 L 211.1,208.14 L 211.42,209.22 L 211.65,210.33 L 211.77,211.49 L 211.77,212.67 L 211.66,213.86 L 211.43,215.06 L 211.07,216.25 L 210.6,217.43 L 210.0,218.57 L 209.29,219.66 L 208.45,220.7 L 207.5,221.68 L 206.45,222.57 L 205.29,223.36 L 204.04,224.06 L 202.71,224.64 L 201.3,225.09 L 199.82,225.41 L 198.3,225.59 L 196.74,225.63 L 195.16,225.5 L 193.57,225.23 L 191.98,224.79 L 190.42,224.19 L 188.9,223.42 L 187.43,222.5 L 186.03,221.42 L 184.73,220.19 L 183.53,218.81 L 182.45,217.3 L 181.5,215.66 L 180.71,213.91 L 180.07,212.06 L 179.61,210.12 L 179.34,208.11 L 179.26,206.04 L 179.39,203.95 L 179.72,201.84 L 180.26,199.73 L 181.02,197.65 L 182.0,195.62 L 183.19,193.66 L 184.58,191.79 L 186.18,190.04 L 187.97,188.42 L 189.95,186.95 L 192.09,185.66 L 194.39,184.57 L 196.83,183.69 L 199.38,183.04 L 202.04,182.63 L 204.76,182.48 L 207.54,182.6 L 210.34,182.99 L 213.14,183.67 L 215.9,184.62 L 218.61,185.87 L 221.23,187.39 L 223.73,189.2 L 226.09,191.27 L 228.27,193.61 L 230.25,196.18 L 232.0,198.99 L 233.5,202.01 L 234.72,205.21 L 235.64,208.57 L 236.24,212.07 L 236.5,215.67 L 236.41,219.35 L 235.95,223.06 L 235.12,226.77 L 233.92,230.45 L 232.34,234.06 L 230.38,237.56 L 228.05,240.91 L 225.36,244.08 L 222.32,247.02 L 218.96,249.7 L 215.28,252.08 L 211.33,254.12 L 207.12,255.81 L 202.69,257.1 L 198.08,257.97 L 193.32,258.4 L 188.46,258.36 L 183.54,257.84 L 178.61,256.83 L 173.72,255.32 L 168.91,253.31 L 164.24,250.8 L 159.75,247.8 L 155.51,244.31 L 151.55,240.36 L 147.93,235.97 L 144.7,231.17 L 141.9,225.98 L 139.58,220.46 L 137.77,214.63 L 136.52,208.55 L 135.85,202.27 L 135.79,195.84 L 136.36,189.32 L 137.58,182.78 L 139.47,176.27 L 142.02,169.86 L 145.23,163.63 L 149.1,157.63 L 153.62,151.93 L 158.75,146.61 L 164.47,141.73 L 170.75,137.35 L 177.55,133.53 L 184.8,130.33 L 192.47,127.81 L 200.48,126.01 L 208.77,124.98 L 217.27,124.76 L 225.9,125.37 L 234.59,126.83 L 243.24,129.18 L 251.77,132.41 L 260.09,136.52 L 268.11,141.5 L 275.74,147.34 L 282.89,154.01 L 289.48,161.47 L 295.42,169.68 L 300.62,178.57 L 305.01,188.1 L 308.52,198.18 L 311.08,208.73 L 312.63,219.67 L 313.13,230.91 L 312.51,242.34 L 310.77,253.86 L 307.86,265.35 L 303.79,276.7 L 298.54,287.8 L 292.13,298.52 L 284.58,308.74 L 275.92,318.36 L 266.21,327.24 L 255.49,335.27 L 243.84,342.36 L 231.35,348.38 L 218.1,353.25 L 204.2,356.88 L 189.76,359.18 L 174.91,360.08 L 159.78,359.53 L 144.51,357.48 L 129.25,353.9 L 114.14,348.77 L 99.35,342.08 L 85.03,333.85 L 71.33,324.09 L 58.42,312.86"/>
+  </svg>
+</div>
+
+<header>
+  <div class="wrap nav" id="mainNav">
+    <a class="brand" href="#top">
+      <img src="logo-antsibaaaa.png" alt="Logo ANTSIVA">
+      <span>ANTSIVA CREA</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#realisations" data-i18n="nav_work">Réalisations</a></li>
+        <li><a href="#about" data-i18n="nav_about">À propos</a></li>
+        <li><a href="#temoignages" data-i18n="nav_testi">Témoignages</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-dropdown" id="langDropdown">
+        <button type="button" class="lang-current" id="langCurrent" aria-haspopup="listbox" aria-expanded="false" aria-label="Langue / Language / Fiteny">
+          <span class="lang-flag" id="langCurrentFlag"><svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg></span>
+          <span class="lang-code" id="langCurrentCode">FR</span>
+          <span class="lang-caret" aria-hidden="true">▾</span>
+        </button>
+        <ul class="lang-menu" role="listbox">
+          <li><button type="button" class="lang-btn active" data-lang="fr" role="option"><svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg><span>Français</span></button></li>
+          <li><button type="button" class="lang-btn" data-lang="en" role="option"><svg viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="2"/><path d="M30,0 V30 M0,15 H60" stroke="#fff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/></svg><span>English</span></button></li>
+          <li><button type="button" class="lang-btn" data-lang="mg" role="option"><svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><rect x="1" width="2" height="1" fill="#FC3D32"/><rect x="1" y="1" width="2" height="1" fill="#007E3A"/></svg><span>Malagasy</span></button></li>
+        </ul>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <svg class="hero-bg" viewBox="0 0 1440 640" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <filter id="waveShadow" x="-10%" y="-20%" width="130%" height="140%">
+          <feDropShadow dx="-6" dy="-8" stdDeviation="12" flood-color="#021a2b" flood-opacity="0.28"/>
+        </filter>
+      </defs>
+      <rect width="1440" height="640" fill="#D6EAF6"/>
+      <path filter="url(#waveShadow)" fill="#4398BE" d="M0,625 C300,600 500,640 800,610 C1050,585 1250,520 1440,430 L1440,640 L0,640 Z"/>
+      <path filter="url(#waveShadow)" fill="#04557D" d="M600,640 C800,630 1000,620 1150,560 C1280,510 1370,440 1440,350 L1440,640 Z"/>
+      <path filter="url(#waveShadow)" fill="#063B5A" d="M1100,640 C1250,620 1350,560 1440,480 L1440,640 Z"/>
+    </svg>
+    <div class="wrap">
+      <div class="hero-copy">
+        <h1 class="animate-letters" data-i18n="hero_title">Votre vision, notre créativité.</h1>
+        <p class="lede" data-i18n="hero_lede">ANTSIVA CREA est un prestataire de service basée à FORT-DAUPHIN Madagascar.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#contact" data-i18n="btn_discuss">Nous contacter</a>
+          <a class="btn btn-glass" href="#realisations" data-i18n="btn_work">Nos réalisations</a>
+        </div>
+        <p class="hero-note" style="margin-top:28px;" data-i18n="hero_note">Stratégie · création · présence digitale, pensées ensemble.</p>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 400 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path class="spiral-path" d="M 203.74,210.0 L 203.79,210.37 L 203.8,210.75 L 203.78,211.13 L 203.71,211.52 L 203.61,211.91 L 203.47,212.29 L 203.29,212.66 L 203.07,213.02 L 202.81,213.36 L 202.52,213.68 L 202.18,213.97 L 201.82,214.24 L 201.43,214.47 L 201.0,214.67 L 200.55,214.83 L 200.08,214.95 L 199.6,215.02 L 199.1,215.04 L 198.59,215.02 L 198.07,214.95 L 197.56,214.82 L 197.06,214.64 L 196.56,214.41 L 196.08,214.13 L 195.62,213.79 L 195.19,213.41 L 194.79,212.98 L 194.43,212.5 L 194.12,211.99 L 193.84,211.43 L 193.62,210.84 L 193.46,210.22 L 193.35,209.58 L 193.31,208.92 L 193.33,208.25 L 193.42,207.57 L 193.57,206.88 L 193.8,206.21 L 194.09,205.55 L 194.45,204.91 L 194.88,204.3 L 195.38,203.72 L 195.94,203.18 L 196.56,202.7 L 197.24,202.26 L 197.97,201.89 L 198.74,201.59 L 199.56,201.35 L 200.4,201.2 L 201.28,201.13 L 202.17,201.14 L 203.07,201.24 L 203.97,201.43 L 204.87,201.71 L 205.75,202.08 L 206.61,202.55 L 207.43,203.11 L 208.2,203.75 L 208.92,204.48 L 209.58,205.29 L 210.17,206.17 L 210.68,207.13 L 211.1,208.14 L 211.42,209.22 L 211.65,210.33 L 211.77,211.49 L 211.77,212.67 L 211.66,213.86 L 211.43,215.06 L 211.07,216.25 L 210.6,217.43 L 210.0,218.57 L 209.29,219.66 L 208.45,220.7 L 207.5,221.68 L 206.45,222.57 L 205.29,223.36 L 204.04,224.06 L 202.71,224.64 L 201.3,225.09 L 199.82,225.41 L 198.3,225.59 L 196.74,225.63 L 195.16,225.5 L 193.57,225.23 L 191.98,224.79 L 190.42,224.19 L 188.9,223.42 L 187.43,222.5 L 186.03,221.42 L 184.73,220.19 L 183.53,218.81 L 182.45,217.3 L 181.5,215.66 L 180.71,213.91 L 180.07,212.06 L 179.61,210.12 L 179.34,208.11 L 179.26,206.04 L 179.39,203.95 L 179.72,201.84 L 180.26,199.73 L 181.02,197.65 L 182.0,195.62 L 183.19,193.66 L 184.58,191.79 L 186.18,190.04 L 187.97,188.42 L 189.95,186.95 L 192.09,185.66 L 194.39,184.57 L 196.83,183.69 L 199.38,183.04 L 202.04,182.63 L 204.76,182.48 L 207.54,182.6 L 210.34,182.99 L 213.14,183.67 L 215.9,184.62 L 218.61,185.87 L 221.23,187.39 L 223.73,189.2 L 226.09,191.27 L 228.27,193.61 L 230.25,196.18 L 232.0,198.99 L 233.5,202.01 L 234.72,205.21 L 235.64,208.57 L 236.24,212.07 L 236.5,215.67 L 236.41,219.35 L 235.95,223.06 L 235.12,226.77 L 233.92,230.45 L 232.34,234.06 L 230.38,237.56 L 228.05,240.91 L 225.36,244.08 L 222.32,247.02 L 218.96,249.7 L 215.28,252.08 L 211.33,254.12 L 207.12,255.81 L 202.69,257.1 L 198.08,257.97 L 193.32,258.4 L 188.46,258.36 L 183.54,257.84 L 178.61,256.83 L 173.72,255.32 L 168.91,253.31 L 164.24,250.8 L 159.75,247.8 L 155.51,244.31 L 151.55,240.36 L 147.93,235.97 L 144.7,231.17 L 141.9,225.98 L 139.58,220.46 L 137.77,214.63 L 136.52,208.55 L 135.85,202.27 L 135.79,195.84 L 136.36,189.32 L 137.58,182.78 L 139.47,176.27 L 142.02,169.86 L 145.23,163.63 L 149.1,157.63 L 153.62,151.93 L 158.75,146.61 L 164.47,141.73 L 170.75,137.35 L 177.55,133.53 L 184.8,130.33 L 192.47,127.81 L 200.48,126.01 L 208.77,124.98 L 217.27,124.76 L 225.9,125.37 L 234.59,126.83 L 243.24,129.18 L 251.77,132.41 L 260.09,136.52 L 268.11,141.5 L 275.74,147.34 L 282.89,154.01 L 289.48,161.47 L 295.42,169.68 L 300.62,178.57 L 305.01,188.1 L 308.52,198.18 L 311.08,208.73 L 312.63,219.67 L 313.13,230.91 L 312.51,242.34 L 310.77,253.86 L 307.86,265.35 L 303.79,276.7 L 298.54,287.8 L 292.13,298.52 L 284.58,308.74 L 275.92,318.36 L 266.21,327.24 L 255.49,335.27 L 243.84,342.36 L 231.35,348.38 L 218.1,353.25 L 204.2,356.88 L 189.76,359.18 L 174.91,360.08 L 159.78,359.53 L 144.51,357.48 L 129.25,353.9 L 114.14,348.77 L 99.35,342.08 L 85.03,333.85 L 71.33,324.09 L 58.42,312.86"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="animate-letters" data-i18n="services_title">Ce que nous faisons porter</h2>
+        <p data-i18n="services_intro">Cinq métiers, une seule ligne : rendre un message clair, cohérent, et audible au-delà de son cercle habituel.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service service-photo reveal-up" style="background-image:url('image-antsiva2.png');">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a9 9 0 1 0 9 9c0-1.2-1-2-2.4-2h-2.1a2 2 0 0 1-2-2V6.4C14.5 4.7 13.4 3 12 3z"/>
+              <circle cx="7.5" cy="10.5" r="1" fill="currentColor" stroke="none"/>
+              <circle cx="9.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+              <circle cx="14.2" cy="6.2" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <h3 data-i18n="s1_t">Création &amp; design</h3>
+          <p data-i18n="s1_p">Identité graphique, supports print et contenus visuels qui restent reconnaissables d'un projet à l'autre.</p>
+        </div>
+        <div class="service service-photo reveal-up" style="background-image:url('image-antsiva3.jpg');">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10v4h3l7 4V6l-7 4H3z"/>
+              <path d="M14.5 9.2a3 3 0 0 1 0 5.6"/>
+              <path d="M17.3 7a6.2 6.2 0 0 1 0 10"/>
+            </svg>
+          </div>
+          <h3 data-i18n="s2_t">Animation événementiel</h3>
+          <p data-i18n="s2_p">Conception et animation de vos événements, lancements et prises de parole publiques, du concept à la scène.</p>
+        </div>
+        <div class="service service-photo reveal-up" style="background-image:url('image-antsiva4.png');">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8.5 4 4.5 7l2 3 2-1.2v10.7h7V8.8l2 1.2 2-3-4-3-2 2h-3l-2-2z"/>
+            </svg>
+          </div>
+          <h3 data-i18n="s3_t">Personnalisation d'objets</h3>
+          <p data-i18n="s3_p">T-shirts, coques de téléphone, goodies : vos objets du quotidien deviennent des supports de marque.</p>
+        </div>
+        <div class="service service-photo reveal-up" style="background-image:url('image-antsiva5.jpg');">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 5.5h12v8h-7l-3.5 3v-3h-1.5v-8z"/>
+              <path d="M20.5 9.5v7h-3v3l-3-3h-2"/>
+            </svg>
+          </div>
+          <h3 data-i18n="s4_t">Community management</h3>
+          <p data-i18n="s4_p">Animation quotidienne de vos réseaux sociaux : contenus, réponses, veille et croissance de communauté.</p>
+        </div>
+        <div class="service service-photo reveal-up" style="background-image:url('image-antsiva6.jpg');">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <line x1="3" y1="9.3" x2="21" y2="9.3"/>
+              <circle cx="6.2" cy="7.15" r="0.55" fill="currentColor" stroke="none"/>
+              <circle cx="8.4" cy="7.15" r="0.55" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <h3 data-i18n="s5_t">Création de sites web</h3>
+          <p data-i18n="s5_p">Sites vitrines et applications sur-mesure, pensés pour représenter votre marque et convertir vos visiteurs.</p>
+        </div>
+        <div class="service service-cta reveal-up">
+          <div>
+            <h3 data-i18n="cta_t">Un besoin sur-mesure ?</h3>
+            <p data-i18n="cta_p">Ces métiers se combinent selon votre projet — parlons-en ensemble.</p>
+          </div>
+          <a class="btn btn-ghost" style="border-color:#274A73;color:#EAF2FC;" href="#contact" data-i18n="cta_btn">En parler</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Réalisations -->
+  <section id="realisations">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="animate-letters" data-i18n="work_title">Réalisations</h2>
+        <p data-i18n="work_intro">Quelques projets récents.</p>
+      </div>
+      <!--
+        Carrousel Bootstrap (défilement automatique). Chaque diapositive
+        utilise déjà une balise <img> nommée image-antsiva7/8/9.png —
+        il suffit de déposer tes photos avec exactement ces noms.
+      -->
+      <div id="workCarousel" class="carousel slide work-carousel" data-bs-ride="carousel" data-bs-interval="4500">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="work-slide" style="background:#0E3B73;">
+              <img class="work-slide-art" src="image-antsiva7.png" alt="Rebranding d'une coopérative agricole">
+              <div class="work-caption">
+                <span class="slide-tag" data-i18n="tag_design">Design graphique</span>
+                <h3 data-i18n="w1_t">Confection d'un banderolle pour un evenement traditionnel</h3>
+                <p data-i18n="w1_p">Application du design graphique notamment dans la culture local.</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="work-slide" style="background:#123F80;">
+              <img class="work-slide-art" src="image-antsiva8.png" alt="Lancement d'une marque locale">
+              <div class="work-caption">
+                <span class="slide-tag" data-i18n="tag_design">Design graphique</span>
+                <h3 data-i18n="w2_t">Confection d'un billet pour le cancer de l'artiste sakateboy</h3>
+                <p data-i18n="w2_p">la confection d'une bonne bonne support visuel peut avoir une bonne resultat pour un evenement.</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="work-slide" style="background:#0B335F;">
+              <img class="work-slide-art" src="image-antsiva9.jpg" alt="Refonte digitale pour une ONG">
+              <div class="work-caption">
+                <span class="slide-tag" data-i18n="tag_event">Animation evenementielle</span>
+                <h3 data-i18n="w3_t">Realisation du campagne promotionnelle de canal+ à fort-dauphin</h3>
+                <p data-i18n="w3_p">une animation de qualité se verifié par une message bien transmis</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="work-slide" style="background:#0E3B73;">
+              <img class="work-slide-art" src="image-antsiva13.jpg" alt="Nouveau projet">
+              <div class="work-caption">
+                <span class="slide-tag" data-i18n="tag_event">Animation evenementielle</span>
+                <h3 data-i18n="w4_t">Grand tour de compagne promotionnelle de canal+ fort-dauphin</h3>
+                <p data-i18n="w4_p">une animation de qualité se verifié par une message bien transmis</p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#workCarousel" data-bs-slide="prev">
+          <span class="control-icon">‹</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#workCarousel" data-bs-slide="next">
+          <span class="control-icon">›</span>
+        </button>
+        <div class="carousel-indicators work-indicators">
+          <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À propos -->
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <p class="about-mark" data-i18n="about_mark">«Antsiva Crea amplifie les messages qui méritent d'être entendus. »</p>
+      </div>
+      <div class="about-copy">
+        <p data-i18n="about_p1">Fondée à Fort-Dauphin en 2022 par Razafindrajara chedric, ANTSIVA travaille avec des entreprises, coopératives et organisations qui veulent que leur message porte au-delà de leur cercle habituel.</p>
+        <p data-i18n="about_p2">Chaque projet part du même endroit : comprendre à qui l'on parle, avant de décider comment le dire.</p>
+        <ul class="about-list">
+          <li data-i18n="l1">Une équipe qui reste impliquée du positionnement jusqu'à la mise en ligne</li>
+          <li data-i18n="l2">Des créations pensées pour le contexte malgache et ses audiences</li>
+          <li data-i18n="l3">Un accompagnement dans la durée, pas seulement à la livraison</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Témoignages -->
+  <section id="temoignages">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="animate-letters" data-i18n="testi_title">Ce qu'en disent nos clients</h2>
+      </div>
+      <div class="testimonials">
+        <blockquote>
+          <p data-i18n="t1_q">« ANTSIVA CREA a clarifié en quelques semaines ce qu'on essayait de dire depuis des mois. »</p>
+          <div class="cite">
+            <div class="avatar"><img src="image-antsiva10.jpg" alt="MR Marcelo."></div>
+            <div class="who"><strong>Mr Marcelo</strong><span data-i18n="t1_r">Responsable crédit, chez un de nos collaborateurs</span></div>
+          </div>
+        </blockquote>
+        <blockquote>
+          <p data-i18n="t2_q">« Une collaboration toujours aussi satisfaisante. »</p>
+          <div class="cite">
+            <div class="avatar"><img src="image-antsiva11.jpeg" alt="Mr allain."></div>
+            <div class="who"><strong>Mr Allain</strong><span data-i18n="t2_r">Responsable stock, canal+</span></div>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-wrap">
+        <div>
+          <h2 class="animate-letters" data-i18n="contact_title">Un projet à faire porter ?</h2>
+          <p class="lede" data-i18n="contact_lede">Décrivez-nous votre message, on vous dira comment le faire porter plus loin.</p>
+          <div class="contact-info">
+            <div class="contact-row">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/>
+                  <circle cx="12" cy="9.5" r="2.4"/>
+                </svg>
+              </span>
+              <span data-i18n="addr">Fort-Dauphin, Madagascar</span>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="5" width="18" height="14" rx="2.5"/>
+                  <path d="M4 6.5l8 6.2 8-6.2"/>
+                </svg>
+              </span>
+              <span>bonjour@antsiva.mg</span>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z"/>
+                </svg>
+              </span>
+              <span>+261 389960515</span>
+            </div>
+            <a class="fb-link" href="https://www.facebook.com/share/19NpQkFkvY/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                <path d="M13.5 21v-8.2h2.75l.41-3.2h-3.16V7.55c0-.93.26-1.56 1.59-1.56h1.7V3.14C15.98 3.06 15.02 3 13.9 3 11.55 3 9.95 4.42 9.95 7.06v2.54H7.19v3.2h2.76V21h3.55z"/>
+              </svg>
+              facebook.com/antsiva
+            </a>
+          </div>
+        </div>
+       
+        <form class="needs-validation" novalidate action="https://formspree.io/f/xljdebdy" method="POST">
+          <div class="form-floating">
+            <input id="name" name="nom" type="text" placeholder=" " required minlength="2">
+            <label for="name" data-i18n="f_name">Votre nom</label>
+            <div class="invalid-feedback" data-i18n="f_name_err">Merci d'indiquer votre nom.</div>
+          </div>
+          <div class="form-floating">
+            <input id="email" name="email" type="email" placeholder=" " required>
+            <label for="email" data-i18n="f_email">Adresse email</label>
+            <div class="invalid-feedback" data-i18n="f_email_err">Merci d'indiquer une adresse email valide.</div>
+          </div>
+          <div class="form-floating">
+            <textarea id="message" name="message" placeholder=" " required minlength="10"></textarea>
+            <label for="message" data-i18n="f_msg">Parlez-nous de votre projet</label>
+            <div class="invalid-feedback" data-i18n="f_msg_err">Dites-nous en un peu plus sur votre projet (10 caractères minimum).</div>
+          </div>
+          <button type="submit" class="btn" data-i18n="f_send">Envoyer le message</button>
+          
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-wrap">
+    <a class="foot-brand" href="#top">
+      <img src="logo-antsibaaaa.png" alt="Logo ANTSIVA">
+      <span>ANTSIVA CREA</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#realisations" data-i18n="nav_work">Réalisations</a></li>
+        <li><a href="#about" data-i18n="nav_about">À propos</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="foot-copy">© <span id="year"></span> ANTSIVA CREA</span>
+  </div>
+</footer>
+
+<!-- Bootstrap : JS uniquement (pas le CSS), pour garder le design ANTSIVA -->
+<script src="bootstrap.bundle.min.js"></script>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('mainNav');
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  // Referme le menu quand on choisit une rubrique
+  document.querySelectorAll('#mainNav nav a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Préchargeur : disparaît une fois le site chargé (minimum 700ms pour laisser voir l'animation)
+  function hidePreloader(){ document.body.classList.add('is-loaded'); }
+  window.addEventListener('load', () => setTimeout(hidePreloader, 700));
+  setTimeout(hidePreloader, 3500); // sécurité si une ressource externe tarde à charger
+
+  // Validation Bootstrap sur le formulaire de contact
+  document.querySelectorAll('.needs-validation').forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+
+  // Animation du titre lettre par lettre (les mots restent groupés pour ne pas couper au milieu)
+  function animateLetters(el){
+    const text = el.textContent;
+    el.setAttribute('aria-label', text);
+    el.innerHTML = '';
+    let i = 0;
+    text.split(' ').forEach((word, wIndex, arr) => {
+      const wordSpan = document.createElement('span');
+      wordSpan.style.display = 'inline-block';
+      [...word].forEach(ch => {
+        const span = document.createElement('span');
+        span.textContent = ch;
+        span.className = 'letter';
+        span.style.animationDelay = el.closest('.hero')
+          ? (i * 0.035) + 's, ' + (1.4 + i * 0.09) + 's'
+          : (i * 0.035) + 's';
+        span.setAttribute('aria-hidden', 'true');
+        wordSpan.appendChild(span);
+        i++;
+      });
+      el.appendChild(wordSpan);
+      if (wIndex < arr.length - 1) el.appendChild(document.createTextNode(' '));
+    });
+  }
+  const letterObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateLetters(entry.target);
+        entry.target.dataset.animated = '1';
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.animate-letters').forEach(el => letterObserver.observe(el));
+
+  // Animation au scroll pour les blocs de service (et autres .reveal-up), avec décalage progressif
+  const revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.reveal-up').forEach(el => {
+    const siblings = [...el.parentElement.children].filter(c => c.classList.contains('reveal-up'));
+    const idx = siblings.indexOf(el);
+    el.style.transitionDelay = (idx * 0.08) + 's';
+    revealObserver.observe(el);
+  });
+
+  // Effet ripple au clic sur les boutons
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e){
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 650);
+    });
+  });
+
+  // ---------- Changement de langue : FR / EN / MG ----------
+  const I18N = {"fr": {"nav_services": "Services", "nav_work": "Réalisations", "nav_about": "À propos", "nav_testi": "Témoignages", "nav_contact": "Contact", "hero_title": "Votre vision, notre créativité.", "hero_lede": "ANTSIVA CREA est un prestataire de service basée à FORT-DAUPHIN Madagascar.", "btn_discuss": "Nous contacter", "btn_work": "Nos réalisations", "hero_note": "Stratégie · création · présence digitale, pensées ensemble.", "services_title": "Ce que nous faisons porter", "services_intro": "Cinq métiers, une seule ligne : rendre un message clair, cohérent, et audible au-delà de son cercle habituel.", "s1_t": "Création & design", "s1_p": "Identité graphique, supports print et contenus visuels qui restent reconnaissables d'un projet à l'autre.", "s2_t": "Animation événementiel", "s2_p": "Conception et animation de vos événements, lancements et prises de parole publiques, du concept à la scène.", "s3_t": "Personnalisation d'objets", "s3_p": "T-shirts, coques de téléphone, goodies : vos objets du quotidien deviennent des supports de marque.", "s4_t": "Community management", "s4_p": "Animation quotidienne de vos réseaux sociaux : contenus, réponses, veille et croissance de communauté.", "s5_t": "Création de sites web", "s5_p": "Sites vitrines et applications sur-mesure, pensés pour représenter votre marque et convertir vos visiteurs.", "cta_t": "Un besoin sur-mesure ?", "cta_p": "Ces métiers se combinent selon votre projet — parlons-en ensemble.", "cta_btn": "En parler", "work_title": "Réalisations", "work_intro": "Quelques projets récents.", "tag_design": "Design graphique", "tag_event": "Animation evenementielle", "w1_t": "Confection d'un banderolle pour un evenement traditionnel", "w1_p": "Application du design graphique notamment dans la culture local.", "w2_t": "Confection d'un billet pour le cancer de l'artiste sakateboy", "w2_p": "la confection d'une bonne bonne support visuel peut avoir une bonne resultat pour un evenement.", "w3_t": "Realisation du campagne promotionnelle de canal+ à fort-dauphin", "w3_p": "une animation de qualité se verifié par une message bien transmis", "w4_t": "Grand tour de compagne promotionnelle de canal+ fort-dauphin", "w4_p": "une animation de qualité se verifié par une message bien transmis", "about_mark": "«Antsiva Crea amplifie les messages qui méritent d'être entendus. »", "about_p1": "Fondée à Fort-Dauphin en 2022 par Razafindrajara chedric, ANTSIVA travaille avec des entreprises, coopératives et organisations qui veulent que leur message porte au-delà de leur cercle habituel.", "about_p2": "Chaque projet part du même endroit : comprendre à qui l'on parle, avant de décider comment le dire.", "l1": "Une équipe qui reste impliquée du positionnement jusqu'à la mise en ligne", "l2": "Des créations pensées pour le contexte malgache et ses audiences", "l3": "Un accompagnement dans la durée, pas seulement à la livraison", "testi_title": "Ce qu'en disent nos clients", "t1_q": "« ANTSIVA CREA a clarifié en quelques semaines ce qu'on essayait de dire depuis des mois. »", "t1_r": "Responsable crédit, chez un de nos collaborateurs", "t2_q": "« Une collaboration toujours aussi satisfaisante. »", "t2_r": "Responsable stock, canal+", "contact_title": "Un projet à faire porter ?", "contact_lede": "Décrivez-nous votre message, on vous dira comment le faire porter plus loin.", "addr": "Fort-Dauphin, Madagascar", "f_name": "Votre nom", "f_name_err": "Merci d'indiquer votre nom.", "f_email": "Adresse email", "f_email_err": "Merci d'indiquer une adresse email valide.", "f_msg": "Parlez-nous de votre projet", "f_msg_err": "Dites-nous en un peu plus sur votre projet (10 caractères minimum).", "f_send": "Envoyer le message", "meta_title": "ANTSIVA CREA — Prestataire de service", "meta_desc": "ANTSIVA CREA est un prestataire de service à Madagascar : stratégie, création et présence digitale pour les marques qui veulent porter plus loin.", "menu_aria": "Ouvrir le menu"}, "en": {"nav_services": "Services", "nav_work": "Our work", "nav_about": "About", "nav_testi": "Testimonials", "nav_contact": "Contact", "hero_title": "Your vision, our creativity.", "hero_lede": "ANTSIVA CREA is a service provider based in Fort-Dauphin, Madagascar.", "btn_discuss": "Contact us", "btn_work": "Our work", "hero_note": "Strategy · creation · digital presence, designed together.", "services_title": "What we help carry further", "services_intro": "Five trades, one guiding line: making a message clear, consistent, and audible beyond its usual circle.", "s1_t": "Creation & design", "s1_p": "Visual identity, print materials and visual content that remain recognizable from one project to the next.", "s2_t": "Event animation", "s2_p": "Design and hosting of your events, launches and public speaking, from concept to stage.", "s3_t": "Object personalization", "s3_p": "T-shirts, phone cases, goodies: your everyday objects become brand carriers.", "s4_t": "Community management", "s4_p": "Daily management of your social networks: content, replies, monitoring and community growth.", "s5_t": "Website creation", "s5_p": "Showcase websites and custom applications, designed to represent your brand and convert your visitors.", "cta_t": "A custom need?", "cta_p": "These trades can be combined to fit your project — let's talk about it together.", "cta_btn": "Let's talk", "work_title": "Our work", "work_intro": "A few recent projects.", "tag_design": "Graphic design", "tag_event": "Event animation", "w1_t": "Making a banner for a traditional event", "w1_p": "Applying graphic design within local culture.", "w2_t": "Making a ticket for artist Sakateboy's cancer benefit", "w2_p": "A good visual support can make a real difference to the success of an event.", "w3_t": "Promotional campaign for Canal+ in Fort-Dauphin", "w3_p": "Quality animation shows in a message well delivered.", "w4_t": "Grand tour of the Canal+ promotional campaign in Fort-Dauphin", "w4_p": "Quality animation shows in a message well delivered.", "about_mark": "“ANTSIVA CREA amplifies the messages that deserve to be heard.”", "about_p1": "Founded in Fort-Dauphin in 2022 by Razafindrajara Chedric, ANTSIVA works with companies, cooperatives and organizations that want their message to reach beyond their usual circle.", "about_p2": "Every project starts from the same place: understanding who we are speaking to before deciding how to say it.", "l1": "A team that stays involved from positioning through to going live", "l2": "Creations designed for the Malagasy context and its audiences", "l3": "Support over time, not just at delivery", "testi_title": "What our clients say", "t1_q": "“ANTSIVA CREA clarified in a few weeks what we had been trying to say for months.”", "t1_r": "Credit manager, at one of our partners", "t2_q": "“A collaboration that is always just as satisfying.”", "t2_r": "Stock manager, Canal+", "contact_title": "A project to carry further?", "contact_lede": "Tell us your message and we'll show you how to carry it further.", "addr": "Fort-Dauphin, Madagascar", "f_name": "Your name", "f_name_err": "Please enter your name.", "f_email": "Email address", "f_email_err": "Please enter a valid email address.", "f_msg": "Tell us about your project", "f_msg_err": "Tell us a bit more about your project (10 characters minimum).", "f_send": "Send message", "meta_title": "ANTSIVA CREA — Service provider", "meta_desc": "ANTSIVA CREA is a service provider in Madagascar: strategy, creation and digital presence for brands that want to carry further.", "menu_aria": "Open the menu"}, "mg": {"nav_services": "Serivisy", "nav_work": "Asa vita", "nav_about": "Momba anay", "nav_testi": "Tenin'ny mpanjifa", "nav_contact": "Fifandraisana", "hero_title": "Ny fahitanao, ny famoronanay.", "hero_lede": "ANTSIVA CREA dia mpamatsy serivisy any Tolagnaro, Madagasikara.", "btn_discuss": "Hifandray aminay", "btn_work": "Asa vitanay", "hero_note": "Paikady · famoronana · fisian’ny aterineto, noheverina miaraka.", "services_title": "Ny hafatra entinay lavitra", "services_intro": "Asa dimy, tanjona iray : ny hanao hafatra mazava, mirindra ary re lavitra noho ny tontolony mahazatra.", "s1_t": "Famoronana & kisary", "s1_p": "Endrika ara-kisary, taratasy vita pirinty ary votoaty hita maso izay mitazona ny fahafantarana azy isaky ny tetikasa.", "s2_t": "Fanentanana hetsika", "s2_p": "Famolavolana sy fanentanana ny hetsika, ny fanokafana ary ny fitenenana am-bahoaka, hatrany amin'ny hevitra ka hatrany amin'ny sehatra.", "s3_t": "Fanamboarana zavatra manokana", "s3_p": "T-shirt, fonon'ny findainao, goodies : ny zavatra ampiasainao isan'andro dia lasa fitaovana mampiseho ny marikao.", "s4_t": "Fitantanana ny vondrom-piarahamonina", "s4_p": "Fanentanana isan'andro ny tambajotra sosialy : votoaty, valiny, fanaraha-maso ary fitomboan'ny vondrom-piarahamonina.", "s5_t": "Famoronana tranonkala", "s5_p": "Tranonkala fampisehoana sy rindrambaiko natao manokana, noheverina hanehoana ny marikao sy hampiova ny mpitsidika ho mpanjifa.", "cta_t": "Mila zavatra manokana ve ianao?", "cta_p": "Azo atambatra araka ny tetikasanao ireo asa ireo — resahintsika miaraka.", "cta_btn": "Resaho", "work_title": "Asa vita", "work_intro": "Tetikasa vitsivitsy vao haingana.", "tag_design": "Famolavolana kisary", "tag_event": "Fanentanana hetsika", "w1_t": "Fanaovana banderoly ho an'ny hetsika nentin-drazana", "w1_p": "Fampiharana ny kisary ao anatin'ny kolontsaina eto an-toerana.", "w2_t": "Fanaovana tapakila ho an'ny aretin-kanseran'ny mpanakanto Sakateboy", "w2_p": "Ny fanaovana fitaovana hita maso tsara dia afaka manome vokatra tsara ho an'ny hetsika iray.", "w3_t": "Fampielezan-kevitra fampiroboroboana ny Canal+ any Tolagnaro", "w3_p": "Ny fanentanana tsara dia hita amin’ny hafatra voaray tsara.", "w4_t": "Fitetezam-paritra lehibe amin'ny fampielezan-kevitra Canal+ any Tolagnaro", "w4_p": "Ny fanentanana tsara dia hita amin’ny hafatra voaray tsara.", "about_mark": "« ANTSIVA CREA dia manamafy ny feon'ny hafatra mendrika ny ho re. »", "about_p1": "Naorina tao Tolagnaro tamin'ny 2022 nataon'i Razafindrajara Chedric, miara-miasa amin'ny orinasa, koperativa ary fikambanana mitady hahatratra lavitra ny hafatrany ny ANTSIVA.", "about_p2": "Ny tetikasa tsirairay dia manomboka amin'ny toerana iray : ny fahatakarana izay iresahana, alohan'ny hanapahana ny fomba hilazana azy.", "l1": "Ekipa mijanona tafiditra hatramin'ny fametrahana ny toerana ka hatramin'ny fandefasana an-tserasera", "l2": "Famoronana noheverina ho an'ny tontolo malagasy sy ny mpihaino azy", "l3": "Fanampiana maharitra, tsy amin'ny fanaterana fotsiny", "testi_title": "Ny lazain'ny mpanjifa anay", "t1_q": "« Nanazava tao anatin'ny herinandro vitsivitsy ny ANTSIVA CREA izay nezahinay lazaina nandritra ny volana maro. »", "t1_r": "Mpitantana ny famatsiam-bola, ao amin'ny iray amin'ireo mpiara-miasa aminay", "t2_q": "« Fiaraha-miasa mahafa-po foana. »", "t2_r": "Mpitantana ny entana tahiry, Canal+", "contact_title": "Misy tetikasa tianao entina lavitra?", "contact_lede": "Lazao anay ny hafatrao, ary holazainay aminao ny fomba hampitondrana azy lavitra.", "addr": "Tolagnaro, Madagasikara", "f_name": "Ny anaranao", "f_name_err": "Ampidiro azafady ny anaranao.", "f_email": "Adiresy mailaka", "f_email_err": "Ampidiro azafady adiresy mailaka mety.", "f_msg": "Lazao anay ny momba ny tetikasanao", "f_msg_err": "Lazao bebe kokoa ny momba ny tetikasanao (10 litera farafahakeliny).", "f_send": "Alefaso ny hafatra", "meta_title": "ANTSIVA CREA — Mpamatsy serivisy", "meta_desc": "ANTSIVA CREA dia mpamatsy serivisy any Madagasikara : paikady, famoronana ary fisian'ny aterineto ho an'ny marika te hahatratra lavitra.", "menu_aria": "Sokafy ny lisitra"}};
+  function applyLang(lang){
+    const dict = I18N[lang] || I18N.fr;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const txt = dict[el.dataset.i18n];
+      if (txt === undefined) return;
+      el.textContent = txt;
+      if (el.classList.contains('animate-letters') && el.dataset.animated) animateLetters(el);
+    });
+    document.title = dict.meta_title;
+    const md = document.querySelector('meta[name="description"]');
+    if (md) md.setAttribute('content', dict.meta_desc);
+    toggle.setAttribute('aria-label', dict.menu_aria);
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      const on = b.dataset.lang === lang;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on);
+    });
+    const activeBtn = document.querySelector('.lang-btn[data-lang="' + lang + '"]');
+    if (activeBtn) {
+      document.getElementById('langCurrentFlag').innerHTML = activeBtn.querySelector('svg').outerHTML;
+      document.getElementById('langCurrentCode').textContent = lang.toUpperCase();
+    }
+    try { localStorage.setItem('antsiva-lang', lang); } catch(e){}
+  }
+
+  // Liste déroulante : s'ouvre au clic, se ferme au choix, au clic ailleurs ou avec Échap
+  const langDropdown = document.getElementById('langDropdown');
+  const langCurrent = document.getElementById('langCurrent');
+  function setLangMenu(open){
+    langDropdown.classList.toggle('open', open);
+    langCurrent.setAttribute('aria-expanded', open);
+  }
+  langCurrent.addEventListener('click', e => {
+    e.stopPropagation();
+    setLangMenu(!langDropdown.classList.contains('open'));
+  });
+  document.addEventListener('click', e => {
+    if (!langDropdown.contains(e.target)) setLangMenu(false);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setLangMenu(false); });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.addEventListener('click', () => { applyLang(b.dataset.lang); setLangMenu(false); });
+  });
+  let savedLang = 'fr';
+  try { savedLang = localStorage.getItem('antsiva-lang') || 'fr'; } catch(e){}
+  if (!I18N[savedLang]) savedLang = 'fr';
+  if (savedLang !== 'fr') applyLang(savedLang);
+  else document.querySelector('.lang-btn[data-lang="fr"]').setAttribute('aria-pressed','true');
+</script>
+
+</body>
+</html>
